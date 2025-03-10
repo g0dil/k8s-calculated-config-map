@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "calculated_config_map"
+version = "0.1.0"
+description = ""
+authors = ["Stefan Bund <stefan@j32.de>"]
+packages = [
+  { include = "calculated_config_map" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+kopf = "^1.37.4"
+kubernetes = "^32.0.1"
+
+[tool.poetry.dev-dependencies]
+mypy = "^1.15.0"
+black = "^25.1.0"
+flake8 = "^7.1.2"
+pytest = "^8.3.5"
+pytest-mypy = "^0.10.3"
+pytest-black-ng = "^0.4.1"
+Flake8-pyproject = "^1.2.3"
+
+[tool.pytest.ini_options]
+testpaths = [ "./calculated_config_map" ]
+addopts = "--black --mypy --tb short -vv"
+
+[tool.black]
+line-length = 96
+
+[tool.mypy]
+incremental = false
+check_untyped_defs = true
+
+[tool.flake8]
+max-line-length = 96
+ignore = "E203 W503 E704"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
