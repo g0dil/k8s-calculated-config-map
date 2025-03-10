@@ -11,6 +11,7 @@ packages = [
 python = "^3.10"
 kopf = "^1.37.4"
 kubernetes = "^32.0.1"
+jsonnet = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "^1.15.0"

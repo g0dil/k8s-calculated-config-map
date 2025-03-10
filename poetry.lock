@@ -245,6 +245,14 @@ optional = false
 python-versions = ">=3.7,<4.0"
 
 [[package]]
+name = "jsonnet"
+version = "0.20.0"
+description = "Python bindings for Jsonnet - The data templating language"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "kopf"
 version = "1.37.4"
 description = "Kubernetes Operator Pythonic Framework (Kopf)"
@@ -634,7 +642,7 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "7da9d0190a4ae0194f783bed7228f02614cfe6ede56f0dbb9149638e4fb56a05"
+content-hash = "911ee877706dd02ee0ef465f881ea7efd34f1a966d7bb30749b705ffbdee5f1d"
 
 [metadata.files]
 aiohappyeyeballs = []
@@ -658,6 +666,7 @@ google-auth = []
 idna = []
 iniconfig = []
 iso8601 = []
+jsonnet = []
 kopf = []
 kubernetes = []
 mccabe = []

@@ -1,0 +1,20 @@
+apiVersion: k8s.haeger.de/v1alpha1
+kind: CalculatedConfigMap
+metadata:
+  name: simple
+spec:
+  context:
+    num:
+      arg: "42"
+      type: json
+    str:
+      arg: "universe"
+
+  template:
+    jsonnet: |
+      function(num, str)
+        {
+          num: std.toString(num),
+          str: str,
+          id: "[%d]: %s" % [num, str]
+        }

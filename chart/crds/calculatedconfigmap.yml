@@ -1,7 +1,7 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: calculatedconfigmap.k8s.haeger.de
+  name: calculatedconfigmaps.k8s.haeger.de
 spec:
   scope: Namespaced
   group: k8s.haeger.de
@@ -24,42 +24,30 @@ spec:
           properties:
             spec:
               type: object
-              description: defines the resource operation.
               required:
                 - context
                 - template
               properties:
                 context:
                   type: object
-                  description: |
-                    Specify the context values to pass into the template. Each item will be one
-                    context value. Context values are referenced by their key.
                   additionalProperties:
                     type: object
                     properties:
-                      code:
-                        type: type
-                        description: value type
+                      type:
+                        type: string
                         enum: [string, json]
                         default: string
                       arg:
                         type: string
-                        description: argument value
                       var:
                         type: string
-                        description: external variable
                 template:
                   type: object
-                  description: |
-                    Tempalte to generate the output resources from the context values.
                   required:
                     - jsonnet
                   properties:
                     jsonnet:
                       type: string
-                      description: |
-                        jsonnet template
             status:
               type: object
-              description: Dynamic values managed by the operator
               x-kubernetes-preserve-unknown-fields: true
