@@ -24,7 +24,9 @@ class ConfigMapApi:
     def __init__(self, client: kubernetes.client.ApiClient):
         self._api = kubernetes.client.CoreV1Api(client)
 
-    def get(self, namespace: str, name: str) -> dict | None:
+    def get(
+        self, namespace: str, name: str
+    ) -> kubernetes.client.models.v1_config_map.V1ConfigMap | None:
         try:
             return self._api.read_namespaced_config_map(name, namespace)
         except kubernetes.client.ApiException as ex:
@@ -48,7 +50,7 @@ class ConfigMapApi:
         if not existing:
             self.create(body)
             return True
-        elif existing.data != body.data:
+        elif existing.data != body["data"]:
             self.patch(body)
             return True
         return False

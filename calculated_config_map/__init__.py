@@ -42,17 +42,23 @@ def sync(name: str, namespace: str, body: kopf.Body, logger, **_):
 
     tlas, ext_vars = parse_context(body)
 
-    values = json.loads(
-        _jsonnet.evaluate_snippet(
-            f"{namespace}:{name}",
-            body["spec"]["template"]["jsonnet"],
-            ext_codes=ext_vars,
-            tla_codes=tlas,
+    try:
+        values = json.loads(
+            _jsonnet.evaluate_snippet(
+                f"{namespace}:{name}",
+                body["spec"]["template"]["jsonnet"],
+                ext_codes=ext_vars,
+                tla_codes=tlas,
+            )
         )
-    )
+    except RuntimeError as ex:
+         # events.error(body, reason="TemplateFailed", message=f"Template error: {ex}")
+        raise kopf.PermanentError(str(ex))
 
     configmap_resource = k8s_configmap.ConfigMapResource.template(
-        name=name, namespace=namespace, values=values
+        name=name,
+        namespace=namespace,
+        values={k: v if isinstance(v, str) else json.dumps(v) for k, v in values.items()},
     )
     kopf.adopt(configmap_resource)
 
@@ -61,7 +67,7 @@ def sync(name: str, namespace: str, body: kopf.Body, logger, **_):
         changed = configmap_api.sync(configmap_resource)
 
     if changed or not last_synchronized:
-        events.info(body, reason="Sync", message="Updated ConfigMap")
+        # events.info(body, reason="Sync", message="ConfigMap updated")
         last_synchronized = datetime.datetime.utcnow().isoformat()
 
     return {"lastSynchronized": last_synchronized}
@@ -69,7 +75,8 @@ def sync(name: str, namespace: str, body: kopf.Body, logger, **_):
 
 @kopf.on.startup()
 async def start(settings: kopf.OperatorSettings, **_):
-    settings.posting.level = logging.CRITICAL
+    #settings.posting.level = logging.CRITICAL
+    pass
 
 
 @kopf.on.login()

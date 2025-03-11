@@ -5,7 +5,7 @@ metadata:
 spec:
   context:
     num:
-      arg: "42"
+      arg: "40"
       type: json
     str:
       arg: "universe"
@@ -14,7 +14,7 @@ spec:
     jsonnet: |
       function(num, str)
         {
-          num: std.toString(num),
+          num: num,
           str: str,
           id: "[%d]: %s" % [num, str]
         }
